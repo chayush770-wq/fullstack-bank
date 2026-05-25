@@ -1,0 +1,364 @@
+{
+  "info": {
+    "_postman_id": "6c10961e-a367-41e3-b477-fe9ca1bf8979",
+    "name": "Banking App - Transactions Cookie Flow",
+    "description": "Transactions tests for HttpOnly Cookie JWT. Run Auth Cookie Flow first and make sure the last request logs in A.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 A Transfers Money To B",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"recipientEmail\": \"{{emailB}}\",\n    \"amount\": 100,\n    \"reason\": \"Postman automation test transfer from A to B\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Transfer A to B status is 201\", function () { pm.response.to.have.status(201); });",
+              "const response = pm.response.json();",
+              "pm.test(\"Transfer response has transaction\", function () { pm.expect(response.transaction).to.exist; });",
+              "pm.test(\"Transfer response has newBalance\", function () { pm.expect(response.newBalance).to.exist; });",
+              "pm.environment.set(\"transactionId\", response.transaction.id || response.transaction._id);",
+              "pm.environment.set(\"userANewBalance\", response.newBalance);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Get A Transactions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Get A transactions status is 200\", function () { pm.response.to.have.status(200); });",
+              "const response = pm.response.json();",
+              "pm.test(\"Response exists\", function () { pm.expect(response).to.exist; });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Get A Transactions With Pagination",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions?page=1&limit=5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Pagination status is 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Get A Transactions Filtered By B",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions?page=1&limit=10&counterparty={{emailB}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "counterparty",
+              "value": "{{emailB}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Filter by counterparty status is 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Invalid Pagination Should Fail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions?page=0&limit=5",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid pagination status is 400\", function () { pm.response.to.have.status(400); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Transfer With Missing Recipient Should Fail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"amount\": 50,\n    \"reason\": \"Missing recipient negative test\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Missing recipient should fail\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 404]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Transfer Too Much Money Should Fail",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"recipientEmail\": \"{{emailB}}\",\n    \"amount\": 999999,\n    \"reason\": \"Insufficient funds negative test\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Insufficient funds should fail\", function () { pm.expect(pm.response.code).to.be.oneOf([400, 409]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Logout A",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/logout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "logout"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Logout status is 200\", function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Get Transactions After Logout Should Fail",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"After logout should be unauthorized\", function () { pm.expect(pm.response.code).to.be.oneOf([401, 403]); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Invalid Cookie Should Fail",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "token=invalid-token"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/transactions",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "transactions"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Invalid cookie should be unauthorized\", function () { pm.expect(pm.response.code).to.be.oneOf([401, 403]); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "info": {
+    "_postman_id": "34f37ed6-f39a-4907-a580-af131f986dd0",
+    "name": "Banking App - Auth Cookie Flow",
+    "description": "Auth flow for HttpOnly Cookie JWT. Does not use localStorage or Authorization Bearer token.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "01 Register A",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"userA{{$timestamp}}@gmail.com\",\n    \"password\": \"{{password}}\",\n    \"phone\": \"0500000000\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Register A status is 201\", function () { pm.response.to.have.status(201); });",
+              "const response = pm.response.json();",
+              "pm.environment.set(\"emailA\", response.user.email);",
+              "pm.environment.set(\"verificationTokenA\", response.verificationToken);",
+              "pm.environment.set(\"userAId\", response.user.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Verify A - sets cookie",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/verify?token={{verificationTokenA}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "verify"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "{{verificationTokenA}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Verify A status is 200\", function () { pm.response.to.have.status(200); });",
+              "const response = pm.response.json();",
+              "pm.environment.set(\"userAId\", response.user.id);",
+              "const setCookie = pm.response.headers.get(\"Set-Cookie\");",
+              "pm.test(\"Auth cookie is set\", function () {",
+              "    pm.expect(setCookie).to.include(\"token=\");",
+              "    pm.expect(setCookie).to.include(\"HttpOnly\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Logout A - clears cookie",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/logout",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "logout"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Logout A status is 200\", function () { pm.response.to.have.status(200); });",
+              "const setCookie = pm.response.headers.get(\"Set-Cookie\");",
+              "pm.test(\"Token cookie is cleared\", function () {",
+              "    pm.expect(setCookie).to.include(\"token=\");",
+              "    pm.expect(setCookie).to.match(/Max-Age=0|Expires=/);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Login A - sets cookie again",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"{{emailA}}\",\n    \"password\": \"{{password}}\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Login A status is 200\", function () { pm.response.to.have.status(200); });",
+              "const response = pm.response.json();",
+              "pm.environment.set(\"userAId\", response.user.id);",
+              "const setCookie = pm.response.headers.get(\"Set-Cookie\");",
+              "pm.test(\"Auth cookie is set\", function () {",
+              "    pm.expect(setCookie).to.include(\"token=\");",
+              "    pm.expect(setCookie).to.include(\"HttpOnly\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Register B",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "register"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"userB{{$timestamp}}@gmail.com\",\n    \"password\": \"{{password}}\",\n    \"phone\": \"0500000001\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Register B status is 201\", function () { pm.response.to.have.status(201); });",
+              "const response = pm.response.json();",
+              "pm.environment.set(\"emailB\", response.user.email);",
+              "pm.environment.set(\"verificationTokenB\", response.verificationToken);",
+              "pm.environment.set(\"userBId\", response.user.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Verify B - sets cookie to B",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/verify?token={{verificationTokenB}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "verify"
+          ],
+          "query": [
+            {
+              "key": "token",
+              "value": "{{verificationTokenB}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Verify B status is 200\", function () { pm.response.to.have.status(200); });",
+              "const response = pm.response.json();",
+              "pm.environment.set(\"userBId\", response.user.id);",
+              "const setCookie = pm.response.headers.get(\"Set-Cookie\");",
+              "pm.test(\"Auth cookie is set\", function () {",
+              "    pm.expect(setCookie).to.include(\"token=\");",
+              "    pm.expect(setCookie).to.include(\"HttpOnly\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Login A Again - important before transactions",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"email\": \"{{emailA}}\",\n    \"password\": \"{{password}}\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Login A again status is 200\", function () { pm.response.to.have.status(200); });",
+              "const response = pm.response.json();",
+              "pm.test(\"Logged in as A\", function () { pm.expect(response.user.email).to.eql(pm.environment.get(\"emailA\")); });",
+              "const setCookie = pm.response.headers.get(\"Set-Cookie\");",
+              "pm.test(\"Auth cookie is set\", function () {",
+              "    pm.expect(setCookie).to.include(\"token=\");",
+              "    pm.expect(setCookie).to.include(\"HttpOnly\");",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

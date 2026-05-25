@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { API_URL } from "../../services/api.config";
+
 import axios from "axios";
 
 import "./CustomerServiceModal.css";
@@ -131,7 +133,7 @@ function CustomerServiceModal({ isOpen, onClose }) {
 
   async function sendMessageToBackend(messageText) {
     const response = await axios.post(
-      "http://localhost:3000/api/chat",
+      `${API_URL}/api/chat`,
 
       {
         message: messageText,

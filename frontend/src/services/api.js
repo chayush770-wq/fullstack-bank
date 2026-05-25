@@ -1,6 +1,8 @@
 /* ===== API CONFIG ===== */
 
-const API_BASE_URL = 'http://localhost:3000/api'
+import { API_URL } from "./api.config";
+
+const API_BASE_URL = `${API_URL}/api`;
 
 
 /* ===== AUTH API ===== */

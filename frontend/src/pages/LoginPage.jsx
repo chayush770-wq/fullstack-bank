@@ -4,6 +4,8 @@ import { useState } from "react";
 
 /* ===== ROUTER ===== */
 
+import { API_URL } from "../services/api.config";
+
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 /* ===== ICONS ===== */
@@ -70,7 +72,7 @@ function LoginPage() {
     try {
       validateLoginForm(email, password);
 
-      const response = await fetch("http://localhost:3000/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
 
         credentials: "include",

@@ -4,6 +4,8 @@ import { useState } from "react";
 
 /* ===== ROUTER ===== */
 
+import { API_URL } from "../services/api.config";
+
 import { Link, useNavigate } from "react-router-dom";
 
 /* ===== ICONS ===== */
@@ -67,7 +69,7 @@ function RegisterPage() {
     try {
       validateRegisterForm(fullName, email, password, phone);
 
-      const response = await fetch("http://localhost:3000/api/auth/register", {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: "POST",
 
         headers: {

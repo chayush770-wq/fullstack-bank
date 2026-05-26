@@ -61,6 +61,11 @@ input {
   overflow: hidden;
 }
 
+.auth-success-page {
+  align-items: center;
+  justify-content: center;
+}
+
 .auth-page::before {
   content: "";
   position: absolute;
@@ -176,6 +181,11 @@ input {
   backdrop-filter: blur(24px);
   position: relative;
   overflow: hidden;
+}
+
+.auth-success-page .auth-card {
+  width: min(860px, 92vw);
+  max-width: 840px;
 }
 
 .auth-card::before {

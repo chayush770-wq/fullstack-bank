@@ -111,22 +111,24 @@ function RegisterPage() {
   /* ===== JSX ===== */
 
   return (
-    <div className="auth-page">
-      <section className="auth-hero">
-        <h1>SmartBank</h1>
+    <div className={`auth-page${message ? " auth-success-page" : ""}`}>
+      {!message && (
+        <section className="auth-hero">
+          <h1>SmartBank</h1>
 
-        <h2>Open your account in minutes</h2>
+          <h2>Open your account in minutes</h2>
 
-        <p>
-          Create a secure account and start managing your money with confidence.
-        </p>
+          <p>
+            Create a secure account and start managing your money with confidence.
+          </p>
 
-        <ul className="hero-highlights">
-          <li>Quick setup for your new bank profile</li>
-          <li>Verified security for every transfer</li>
-          <li>Easily track spending and balance</li>
-        </ul>
-      </section>
+          <ul className="hero-highlights">
+            <li>Quick setup for your new bank profile</li>
+            <li>Verified security for every transfer</li>
+            <li>Easily track spending and balance</li>
+          </ul>
+        </section>
+      )}
 
       <section className="auth-card">
         {message ? (

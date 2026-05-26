@@ -817,11 +817,7 @@ input:focus {
   padding-bottom: 10px;
   border-bottom: 1px solid #eef3f8;
 }
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 18px;
-}
+
 
 .panel-header h2,
 .quick-panel h2 {

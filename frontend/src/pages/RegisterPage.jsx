@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 /* ===== ICONS ===== */
 
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff, FiMail } from "react-icons/fi";
 
 /* ===== REGISTER PAGE ===== */
 
@@ -132,27 +132,34 @@ function RegisterPage() {
         {message ? (
           <div className="register-success">
             <div className="register-success-card">
-              <div className="success-illustration">📧</div>
+              <div className="success-banner">
+                <div className="success-icon-wrap">
+                  <FiMail />
+                </div>
 
-              <span className="status-chip">Confirm your email</span>
+                <div className="success-banner-text">
+                  <span className="status-chip">Email sent</span>
+                  <h2>Verify your inbox to activate your account</h2>
+                </div>
+              </div>
 
-              <h2>Account created successfully</h2>
+              <div className="register-details">
+                <p className="register-success-intro">
+                  We sent a verification message to:
+                </p>
 
-              <p className="register-success-intro">
-                We sent a verification message to:
-              </p>
+                <div className="register-email-tag">{sentEmail || "your email address"}</div>
 
-              <div className="register-email-tag">{sentEmail || "your email address"}</div>
+                <p>
+                  Open the email and click <strong>Verify Account</strong> to complete your
+                  SmartBank signup.
+                </p>
 
-              <p>
-                Open the email and click <strong>Verify Account</strong> to activate
-                your SmartBank account.
-              </p>
-
-              <p>
-                Didn't see it yet? Check your spam folder or wait a minute while the
-                email arrives.
-              </p>
+                <p className="register-note">
+                  If you don't see it, check your spam folder or search for "SmartBank"
+                  in your inbox.
+                </p>
+              </div>
             </div>
 
             <p className="redirect-text">

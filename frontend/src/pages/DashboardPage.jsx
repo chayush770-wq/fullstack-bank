@@ -8,11 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 /* ===== ICONS ===== */
 
-import {
-  FiCheck,
-  FiDollarSign,
-  FiGlobe,
-} from "react-icons/fi";
+import { FiCheck, FiDollarSign, FiGlobe } from "react-icons/fi";
 
 /* ===== COMPONENTS ===== */
 

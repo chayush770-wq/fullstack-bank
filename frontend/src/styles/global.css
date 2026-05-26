@@ -2229,3 +2229,92 @@ input:focus {
     padding: 18px 14px;
   }
 }
+
+
+/* ===== DASHBOARD COMPACT POLISH ===== */
+
+.bank-shell {
+  max-width: 1180px;
+  padding: 22px;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 22px;
+}
+
+.account-summary {
+  min-height: 155px;
+  padding: 24px 28px;
+}
+
+.account-summary h2 {
+  font-size: 22px;
+}
+
+.balance-row {
+  margin-top: 14px;
+}
+
+.balance-row strong {
+  font-size: 38px;
+}
+
+.balance-row button {
+  height: 44px;
+  padding: 0 26px;
+  font-size: 15px;
+}
+
+.transactions-panel {
+  padding: 22px 24px;
+  min-height: 150px;
+}
+
+.panel-header {
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+}
+
+.panel-header h2,
+.quick-panel h2 {
+  font-size: 21px;
+}
+
+.quick-panel {
+  padding: 22px;
+}
+
+.quick-panel button {
+  height: 52px;
+  margin-top: 12px;
+  padding: 0 22px;
+  font-size: 15px;
+  background: #ffffff;
+  border: 1px solid #dbe4ee;
+  box-shadow: none;
+}
+
+.quick-panel button:hover {
+  background: #f7faff;
+  border-color: #b9c8dc;
+}
+
+.quick-panel .signout-action {
+  background: #fff4f6;
+}
+
+.profile-mini {
+  margin-top: 18px;
+  padding: 18px;
+}
+
+.bank-page {
+  background-position: center;
+}
+
+.bank-topbar {
+  padding: 0 34px;
+}
+
+.topbar-actions button {
+  height: 44px;
+  padding: 0 18px;
+}

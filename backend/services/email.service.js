@@ -1,43 +1,48 @@
-const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
 
-/* ===== MAIL TRANSPORT ===== */
+/* ===== GOOGLE OAUTH CLIENT ===== */
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+const oauth2Client = new google.auth.OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  "https://developers.google.com/oauthplayground",
+);
 
-  port: 587,
-
-  secure: false,
-
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-
-  tls: {
-    family: 4,
-    rejectUnauthorized: false,
-  },
-
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
+oauth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
 });
+
+/* ===== CREATE RAW EMAIL ===== */
+
+function createRawEmail({ from, to, subject, html }) {
+  const message = [
+    `From: SmartBank <${from}>`,
+    `To: ${to}`,
+    `Subject: ${subject}`,
+    "MIME-Version: 1.0",
+    'Content-Type: text/html; charset="UTF-8"',
+    "",
+    html,
+  ].join("\n");
+
+  return Buffer.from(message)
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
 
 /* ===== SEND VERIFY EMAIL ===== */
 
 async function sendVerificationEmail(email, verificationLink) {
-  console.log("Sending verification email to:", email);
+  console.log("Sending verification email with Gmail API to:", email);
 
-  const result = await transporter.sendMail({
-    from: process.env.EMAIL_USER,
+  const gmail = google.gmail({
+    version: "v1",
+    auth: oauth2Client,
+  });
 
-    to: email,
-
-    subject: "Verify Your SmartBank Account",
-
-    html: `
-
+  const html = `
 <div
 style="
 background:#07111f;
@@ -105,11 +110,23 @@ ignore this email.
 </p>
 
 </div>
+`;
 
-`,
+  const raw = createRawEmail({
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Verify Your SmartBank Account",
+    html,
   });
 
-  console.log("Verification email sent:", result.messageId);
+  const result = await gmail.users.messages.send({
+    userId: "me",
+    requestBody: {
+      raw,
+    },
+  });
+
+  console.log("Verification email sent with Gmail API:", result.data.id);
 }
 
 module.exports = {

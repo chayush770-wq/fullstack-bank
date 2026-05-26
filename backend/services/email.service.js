@@ -7,15 +7,20 @@ const transporter = nodemailer.createTransport({
 
   auth: {
     user: process.env.EMAIL_USER,
-
     pass: process.env.EMAIL_PASS,
   },
+
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
 /* ===== SEND VERIFY EMAIL ===== */
 
 async function sendVerificationEmail(email, verificationLink) {
-  await transporter.sendMail({
+  console.log("Sending verification email to:", email);
+
+  const result = await transporter.sendMail({
     from: process.env.EMAIL_USER,
 
     to: email,
@@ -58,7 +63,6 @@ Your account was created successfully.
 Please verify your email to continue.
 </p>
 
-
 <a
 href="${verificationLink}"
 
@@ -78,7 +82,6 @@ Verify Account
 
 </a>
 
-
 <p
 style="
 margin-top:40px;
@@ -96,6 +99,8 @@ ignore this email.
 
 `,
   });
+
+  console.log("Verification email sent:", result.messageId);
 }
 
 module.exports = {

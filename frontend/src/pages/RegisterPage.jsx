@@ -95,7 +95,9 @@ function RegisterPage() {
       event.target.reset();
 
       setShowPassword(false);
+
       setSentEmail(email);
+
       setMessage("success");
 
       setTimeout(() => {
@@ -119,12 +121,15 @@ function RegisterPage() {
           <h2>Open your account in minutes</h2>
 
           <p>
-            Create a secure account and start managing your money with confidence.
+            Create a secure account and start managing your money with
+            confidence.
           </p>
 
           <ul className="hero-highlights">
             <li>Quick setup for your new bank profile</li>
+
             <li>Verified security for every transfer</li>
+
             <li>Easily track spending and balance</li>
           </ul>
         </section>
@@ -132,45 +137,45 @@ function RegisterPage() {
 
       <section className="auth-card">
         {message ? (
-          <div className="register-success">
-            <div className="register-success-card">
-              <div className="success-banner">
-                <div className="success-icon-wrap">
-                  <FiMail />
-                </div>
-
-                <div className="success-banner-text">
-                  <span className="status-chip">Email sent</span>
-                  <h2>Verify your inbox to activate your account</h2>
-                </div>
+          <div className="email-modal-wrapper">
+            <div className="email-modal">
+              <div className="email-icon-circle">
+                <FiMail />
               </div>
 
-              <div className="register-details">
-                <p className="register-success-intro">
-                  We sent a verification message to:
-                </p>
+              <span className="email-status">Verification Email Sent</span>
 
-                <div className="register-email-tag">{sentEmail || "your email address"}</div>
+              <h2>Check your inbox</h2>
 
-                <p>
-                  Open the email and click <strong>Verify Account</strong> to complete your
-                  SmartBank signup.
-                </p>
+              <p className="email-main-text">
+                We've sent a verification link to:
+              </p>
 
-                <p className="register-note">
-                  If you don't see it, check your spam folder or search for "SmartBank"
-                  in your inbox.
-                </p>
+              <div className="email-address-box">
+                {sentEmail || "your@email.com"}
               </div>
+
+              <p className="email-secondary-text">
+                Open the email and click
+                <strong> Verify Account </strong>
+                to activate your SmartBank account.
+              </p>
+
+              <div className="email-tip-box">
+                Didn't get the email?
+                <br />
+                Check your spam folder or search for
+                <strong> SmartBank</strong>
+              </div>
+
+              <p className="redirect-text">
+                Redirecting to login in 8 seconds...
+              </p>
+
+              <button className="primary-button" onClick={() => navigate("/")}>
+                Go To Login
+              </button>
             </div>
-
-            <p className="redirect-text">
-              Redirecting to login in 8 seconds...
-            </p>
-
-            <button className="primary-button" onClick={() => navigate("/")}>
-              Go To Login
-            </button>
           </div>
         ) : (
           <>

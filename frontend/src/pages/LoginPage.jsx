@@ -134,13 +134,6 @@ function LoginPage() {
           </p>
 
           <div className="auth-home-actions">
-            <button
-              className="primary-button"
-              onClick={() => setIsLoginOpen(true)}
-            >
-              כניסה לחשבון
-            </button>
-
             <Link className="secondary-auth-link" to="/register">
               פתיחת חשבון
             </Link>

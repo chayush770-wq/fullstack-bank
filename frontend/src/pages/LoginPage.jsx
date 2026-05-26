@@ -114,13 +114,6 @@ function LoginPage() {
       <section className="auth-home-hero">
         <div className="auth-home-topbar">
           <h1>SmartBank</h1>
-
-          <button
-            className="auth-home-login-button"
-            onClick={() => setIsLoginOpen(true)}
-          >
-            כניסה לחשבון
-          </button>
         </div>
 
         <div className="auth-home-content">
@@ -134,6 +127,13 @@ function LoginPage() {
           </p>
 
           <div className="auth-home-actions">
+            <button
+              className="primary-button"
+              onClick={() => setIsLoginOpen(true)}
+            >
+              כניסה לחשבון
+            </button>
+
             <Link className="secondary-auth-link" to="/register">
               פתיחת חשבון
             </Link>

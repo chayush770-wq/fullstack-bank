@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 /* ===== ICONS ===== */
 
-import { FiCheck, FiDollarSign, FiGlobe } from "react-icons/fi";
+import { FiCheck, FiGlobe } from "react-icons/fi";
 
 /* ===== COMPONENTS ===== */
 
@@ -48,13 +48,11 @@ function DashboardPage() {
   const [error, setError] = useState("");
 
   const [preferredLanguage, setPreferredLanguage] = useState("he");
-  const [preferredCurrency, setPreferredCurrency] = useState("USD");
 
   const [preferencesMessage, setPreferencesMessage] = useState("");
   const [isSavingPreferences, setIsSavingPreferences] = useState(false);
 
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
-  const [showCurrencyMenu, setShowCurrencyMenu] = useState(false);
 
   const [isCustomerServiceOpen, setIsCustomerServiceOpen] = useState(false);
 
@@ -78,7 +76,6 @@ function DashboardPage() {
       const accountData = await accountResponse.json();
 
       setPreferredLanguage(accountData.preferredLanguage || "he");
-      setPreferredCurrency(accountData.preferredCurrency || "USD");
 
       const transactionsResponse = await getTransactions();
 
@@ -161,17 +158,14 @@ function DashboardPage() {
 
   /* ===== SAVE PREFERENCES ===== */
 
-  async function handleSavePreferences(
-    preferredLanguageValue,
-    preferredCurrencyValue,
-  ) {
+  async function handleSavePreferences(preferredLanguageValue) {
     setPreferencesMessage("");
     setIsSavingPreferences(true);
 
     try {
       const response = await updateUserPreferences(
         preferredLanguageValue,
-        preferredCurrencyValue,
+        "USD",
       );
 
       const data = await response.json();
@@ -181,7 +175,6 @@ function DashboardPage() {
       }
 
       setPreferredLanguage(preferredLanguageValue);
-      setPreferredCurrency(preferredCurrencyValue);
 
       setPreferencesMessage(
         preferredLanguageValue === "he"
@@ -195,7 +188,6 @@ function DashboardPage() {
     } finally {
       setIsSavingPreferences(false);
       setShowLanguageMenu(false);
-      setShowCurrencyMenu(false);
     }
   }
 
@@ -219,17 +211,8 @@ function DashboardPage() {
       .includes(transactionSearch.toLowerCase()),
   );
 
-  /* ===== CURRENCY ===== */
-
-  const displayCurrency =
-    account?.preferredCurrency || preferredCurrency || "USD";
-
-  const currencySymbols = {
-    USD: "$",
-    ILS: "₪",
-    EUR: "€",
-  };
-
+const displayCurrencySymbol = "$";
+  
   const displayCurrencySymbol =
     currencySymbols[displayCurrency] || displayCurrency;
 

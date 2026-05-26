@@ -118,22 +118,37 @@ function RegisterPage() {
         <p>
           Create a secure account and start managing your money with confidence.
         </p>
+
+        <ul className="hero-highlights">
+          <li>Quick setup for your new bank profile</li>
+          <li>Verified security for every transfer</li>
+          <li>Easily track spending and balance</li>
+        </ul>
       </section>
 
       <section className="auth-card">
         {message ? (
           <div className="register-success">
+            <span className="status-chip">✅ Verify your email</span>
+
             <div className="success-icon">✅</div>
 
-            <h2>Account Created</h2>
+            <h2>Almost there!</h2>
 
             <p>
-              We sent a verification email.
+              Your account has been created successfully.
               <br />
-              <br />
-              Please open your inbox and click:
-              <br />
-              <strong>Verify Account</strong>
+              We just sent a confirmation email to your inbox.
+            </p>
+
+            <p>
+              Open the email and click <strong>Verify Account</strong> to activate
+              your banking profile.
+            </p>
+
+            <p>
+              If you don't see it, check your spam folder or wait a minute while the
+              message arrives.
             </p>
 
             <p className="redirect-text">

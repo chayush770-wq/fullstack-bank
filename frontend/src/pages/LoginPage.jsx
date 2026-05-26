@@ -113,6 +113,12 @@ function LoginPage() {
         <h2>Banking made simple</h2>
 
         <p>Manage your money securely and easily.</p>
+
+        <ul className="hero-highlights">
+          <li>Fast access to your account and transfers</li>
+          <li>Protected by bank-grade security</li>
+          <li>Clear insights for smarter spending</li>
+        </ul>
       </section>
 
       <section className="auth-card">
@@ -120,9 +126,9 @@ function LoginPage() {
 
         <p className="auth-subtitle">Welcome back to your account</p>
 
-        {message && <div className="login-success-message">{message}</div>}
+        {message && <div className="auth-alert success">{message}</div>}
 
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="auth-alert error">{error}</div>}
 
         <form onSubmit={handleLogin}>
           <input
@@ -154,6 +160,10 @@ function LoginPage() {
           <button className="primary-button" type="submit">
             Login
           </button>
+
+          <p className="auth-note">
+            Your login details are protected and encrypted.
+          </p>
         </form>
 
         <p className="auth-link-text">

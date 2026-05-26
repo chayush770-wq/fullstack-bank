@@ -48,15 +48,15 @@ function DashboardPage() {
   const [error, setError] = useState("");
 
   const [preferredLanguage, setPreferredLanguage] = useState("he");
-
   const [preferencesMessage, setPreferencesMessage] = useState("");
   const [isSavingPreferences, setIsSavingPreferences] = useState(false);
-
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
 
   const [isCustomerServiceOpen, setIsCustomerServiceOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  const displayCurrencySymbol = "$";
 
   /* ===== LOAD DASHBOARD DATA ===== */
 
@@ -156,7 +156,7 @@ function DashboardPage() {
     }
   }
 
-  /* ===== SAVE PREFERENCES ===== */
+  /* ===== SAVE LANGUAGE PREFERENCE ===== */
 
   async function handleSavePreferences(preferredLanguageValue) {
     setPreferencesMessage("");
@@ -211,11 +211,6 @@ function DashboardPage() {
       .includes(transactionSearch.toLowerCase()),
   );
 
-const displayCurrencySymbol = "$";
-  
-  const displayCurrencySymbol =
-    currencySymbols[displayCurrency] || displayCurrency;
-
   const displayName = account
     ? account.fullName && !account.fullName.includes("@")
       ? account.fullName.split(" ")[0]
@@ -261,10 +256,8 @@ const displayCurrencySymbol = "$";
                 aria-label={
                   preferredLanguage === "he" ? "בחר שפה" : "Choose language"
                 }
-                onClick={() => {
-                  setShowLanguageMenu(!showLanguageMenu);
-                  setShowCurrencyMenu(false);
-                }}
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+                disabled={isSavingPreferences}
               >
                 <span className="button-icon">
                   <FiGlobe />
@@ -276,7 +269,8 @@ const displayCurrencySymbol = "$";
                   <button
                     type="button"
                     className={preferredLanguage === "he" ? "selected" : ""}
-                    onClick={() => handleSavePreferences("he", displayCurrency)}
+                    onClick={() => handleSavePreferences("he")}
+                    disabled={isSavingPreferences}
                   >
                     <span>
                       עברית
@@ -288,78 +282,14 @@ const displayCurrencySymbol = "$";
                   <button
                     type="button"
                     className={preferredLanguage === "en" ? "selected" : ""}
-                    onClick={() => handleSavePreferences("en", displayCurrency)}
+                    onClick={() => handleSavePreferences("en")}
+                    disabled={isSavingPreferences}
                   >
                     <span>
                       English
                       <small>EN</small>
                     </span>
                     {preferredLanguage === "en" && <FiCheck />}
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="preference-dropdown">
-              <button
-                type="button"
-                className={`icon-button ${showCurrencyMenu ? "active" : ""}`}
-                aria-expanded={showCurrencyMenu}
-                aria-label={
-                  preferredLanguage === "he" ? "בחר מטבע" : "Choose currency"
-                }
-                onClick={() => {
-                  setShowCurrencyMenu(!showCurrencyMenu);
-                  setShowLanguageMenu(false);
-                }}
-              >
-                <span className="button-icon">
-                  <FiDollarSign />
-                </span>
-              </button>
-
-              {showCurrencyMenu && (
-                <div className="preference-menu">
-                  <button
-                    type="button"
-                    className={preferredCurrency === "USD" ? "selected" : ""}
-                    onClick={() =>
-                      handleSavePreferences(preferredLanguage, "USD")
-                    }
-                  >
-                    <span>
-                      USD
-                      <small>USD</small>
-                    </span>
-                    {preferredCurrency === "USD" && <FiCheck />}
-                  </button>
-
-                  <button
-                    type="button"
-                    className={preferredCurrency === "ILS" ? "selected" : ""}
-                    onClick={() =>
-                      handleSavePreferences(preferredLanguage, "ILS")
-                    }
-                  >
-                    <span>
-                      ILS
-                      <small>ILS</small>
-                    </span>
-                    {preferredCurrency === "ILS" && <FiCheck />}
-                  </button>
-
-                  <button
-                    type="button"
-                    className={preferredCurrency === "EUR" ? "selected" : ""}
-                    onClick={() =>
-                      handleSavePreferences(preferredLanguage, "EUR")
-                    }
-                  >
-                    <span>
-                      EUR
-                      <small>EUR</small>
-                    </span>
-                    {preferredCurrency === "EUR" && <FiCheck />}
                   </button>
                 </div>
               )}
@@ -648,7 +578,7 @@ const displayCurrencySymbol = "$";
                 >
                   {isTransferring
                     ? preferredLanguage === "he"
-                      ? "שולח רשיות..."
+                      ? "שולח בקשה..."
                       : "Sending..."
                     : preferredLanguage === "he"
                       ? "שלח כסף"

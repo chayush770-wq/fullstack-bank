@@ -237,6 +237,12 @@ function DashboardPage() {
   const displayCurrencySymbol =
     currencySymbols[displayCurrency] || displayCurrency;
 
+  const displayName = account
+    ? account.fullName && !account.fullName.includes("@")
+      ? account.fullName.split(" ")[0]
+      : account.email.split("@")[0]
+    : "";
+
   /* ===== LOADING / ERROR ===== */
 
   if (error) {
@@ -265,7 +271,7 @@ function DashboardPage() {
         </div>
 
         <div className="topbar-actions">
-          <span>שלום {account.fullName}</span>
+          <span>שלום, {displayName}</span>
 
           <div className="preference-icons">
             <div className="preference-dropdown">

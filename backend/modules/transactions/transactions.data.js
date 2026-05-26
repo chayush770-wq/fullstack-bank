@@ -57,7 +57,9 @@ async function buildTransactionForUser(
             transaction._id,
 
         counterpartyEmail:
-            counterparty.email,
+    counterparty
+        ? counterparty.email
+        : 'Unknown user',
 
         amount:
             isSender

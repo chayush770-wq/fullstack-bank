@@ -1990,3 +1990,242 @@ input:focus {
     color: #f6c400;
   }
 }
+
+/* ======================================== */
+/* ===== FINAL POLISH FIXES - AUTH + DASHBOARD ===== */
+/* ======================================== */
+
+/* Keep auth screens inside the viewport without ugly scrolling */
+.auth-page {
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Register/Login layout: same language, tighter and cleaner */
+.auth-hero {
+  width: min(540px, 58%);
+  height: min(520px, calc(100svh - 44px));
+  min-height: 460px;
+  padding: 30px 38px;
+}
+
+.auth-card {
+  width: min(420px, 40%);
+  height: auto;
+  max-height: min(520px, calc(100svh - 44px));
+  padding: 30px 32px;
+  overflow: hidden;
+}
+
+/* If an error appears, it should not push links outside the card */
+.auth-card h2 {
+  font-size: 31px;
+  margin-bottom: 10px;
+}
+
+.auth-subtitle {
+  font-size: 15px;
+  margin-bottom: 18px;
+}
+
+.auth-card form {
+  gap: 12px;
+}
+
+.auth-alert,
+.auth-card .auth-alert {
+  padding: 10px 13px;
+  margin-bottom: 12px;
+  font-size: 13px;
+  line-height: 1.35;
+  border-radius: 12px;
+}
+
+/* Make all register/login inputs clearly visible and consistent */
+.auth-card input,
+.auth-modal-card input {
+  height: 44px;
+  background: #e8f1ff;
+  color: #0b1f3a;
+  border: 1px solid #d6e3f5;
+  border-radius: 0;
+  padding: 0 14px;
+  box-shadow: none;
+}
+
+.auth-card input::placeholder,
+.auth-modal-card input::placeholder {
+  color: #5c6f89;
+}
+
+.auth-card input:focus,
+.auth-modal-card input:focus {
+  background: #ffffff;
+  border-color: #f6c400;
+  box-shadow: 0 0 0 3px rgba(246, 196, 0, 0.2);
+}
+
+/* Password eye alignment on light inputs */
+.auth-card .password-toggle,
+.auth-modal-card .password-toggle {
+  color: #8aa0bd;
+}
+
+/* Footer links must stay inside the box */
+.auth-link-text,
+.auth-card .auth-link-text {
+  margin-top: 14px;
+  padding-top: 12px;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+/* Email sent screen: one centered box, no cutting */
+.auth-success-page {
+  height: 100svh;
+  min-height: 560px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-success-page .auth-card {
+  width: min(430px, 94vw);
+  max-width: 430px;
+  max-height: calc(100svh - 44px);
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: visible;
+}
+
+.email-modal {
+  width: min(430px, 94vw);
+  max-height: calc(100svh - 44px);
+  padding: 24px 24px;
+  overflow: hidden;
+}
+
+.email-icon-circle {
+  width: 58px;
+  height: 58px;
+  font-size: 26px;
+  margin-bottom: 12px;
+}
+
+.email-status {
+  margin-bottom: 12px;
+}
+
+.email-modal h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.email-main-text,
+.email-secondary-text,
+.email-tip-box,
+.redirect-text {
+  font-size: 14px;
+}
+
+.email-address-box {
+  padding: 10px 14px;
+  margin-bottom: 12px;
+}
+
+.email-tip-box {
+  padding: 11px;
+  margin-bottom: 12px;
+}
+
+/* Dashboard aligned to the auth design */
+.bank-page {
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(238, 243, 247, 0.96)),
+    url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1800&auto=format&fit=crop");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.bank-topbar {
+  min-height: 70px;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid rgba(219, 228, 238, 0.9);
+  box-shadow: 0 10px 34px rgba(7, 20, 38, 0.08);
+}
+
+.bank-logo {
+  color: #123d73;
+  font-weight: 800;
+}
+
+.bank-shell {
+  max-width: 1280px;
+  padding: 28px 24px;
+  gap: 24px;
+}
+
+.account-summary {
+  border-radius: 0;
+  background:
+    linear-gradient(135deg, rgba(18, 61, 115, 0.98), rgba(7, 20, 38, 0.96));
+  box-shadow: 0 22px 50px rgba(7, 20, 38, 0.16);
+}
+
+.transactions-panel,
+.quick-panel,
+.profile-mini {
+  border-radius: 0;
+  border: 1px solid rgba(219, 228, 238, 0.9);
+  box-shadow: 0 22px 50px rgba(7, 20, 38, 0.1);
+}
+
+.quick-panel button,
+.balance-row button {
+  border-radius: 0;
+}
+
+.topbar-actions .logout-button {
+  border-radius: 0;
+  background: #0b1f3a;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .auth-page,
+  .auth-success-page {
+    height: auto;
+    min-height: 100svh;
+    overflow-y: auto;
+    padding: 14px;
+  }
+
+  .auth-hero,
+  .auth-card {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+  }
+
+  .auth-card {
+    padding: 28px 22px;
+  }
+
+  .email-modal {
+    max-height: none;
+  }
+
+  .bank-shell {
+    grid-template-columns: 1fr;
+    padding: 18px 14px;
+  }
+}

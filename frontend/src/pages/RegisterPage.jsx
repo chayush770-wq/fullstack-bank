@@ -17,6 +17,8 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 function RegisterPage() {
   const [message, setMessage] = useState("");
 
+  const [sentEmail, setSentEmail] = useState("");
+
   const [error, setError] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
@@ -93,7 +95,7 @@ function RegisterPage() {
       event.target.reset();
 
       setShowPassword(false);
-
+      setSentEmail(email);
       setMessage("success");
 
       setTimeout(() => {
@@ -129,27 +131,29 @@ function RegisterPage() {
       <section className="auth-card">
         {message ? (
           <div className="register-success">
-            <span className="status-chip">✅ Verify your email</span>
+            <div className="register-success-card">
+              <div className="success-illustration">📧</div>
 
-            <div className="success-icon">✅</div>
+              <span className="status-chip">Confirm your email</span>
 
-            <h2>Almost there!</h2>
+              <h2>Account created successfully</h2>
 
-            <p>
-              Your account has been created successfully.
-              <br />
-              We just sent a confirmation email to your inbox.
-            </p>
+              <p className="register-success-intro">
+                We sent a verification message to:
+              </p>
 
-            <p>
-              Open the email and click <strong>Verify Account</strong> to activate
-              your banking profile.
-            </p>
+              <div className="register-email-tag">{sentEmail || "your email address"}</div>
 
-            <p>
-              If you don't see it, check your spam folder or wait a minute while the
-              message arrives.
-            </p>
+              <p>
+                Open the email and click <strong>Verify Account</strong> to activate
+                your SmartBank account.
+              </p>
+
+              <p>
+                Didn't see it yet? Check your spam folder or wait a minute while the
+                email arrives.
+              </p>
+            </div>
 
             <p className="redirect-text">
               Redirecting to login in 8 seconds...
